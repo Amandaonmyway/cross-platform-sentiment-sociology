@@ -1,9 +1,10 @@
 import pandas as pd
-from src.sentiment_analyzer import calculate_basic_sentiment
+from src.sentiment_analyzer import SentimentAnalyzer
 
 def main():
     # Simulate raw text samples collected from cross-platform sources
     sample_data = pd.DataFrame({
+        'platform': ['Reddit', 'NicheForum', 'Reddit'],
         'raw_text': [
             "Check out this cool research: https://example.com #Sociology",
             "@user Great discussion on digital polarization today!",
@@ -14,11 +15,12 @@ def main():
     print("--- Raw Text Data ---")
     print(sample_data)
     
-    # Call the core module from the src directory for cleaning and preprocessing
-    processed_df = calculate_basic_sentiment(sample_data, 'raw_text')
+    # Initialize the SentimentAnalyzer and execute the pipeline
+    analyzer = SentimentAnalyzer()
+    processed_df = analyzer.process_dataframe(sample_data, text_column='raw_text')
     
-    print("\n--- Cleaned and Processed Computational Sociology Text ---")
-    print(processed_df[['cleaned_text']])
+    print("\n--- Processed Sentiment & Polarization Results ---")
+    print(processed_df[['platform', 'raw_text', 'compound', 'sentiment_label']])
 
 if __name__ == "__main__":
     main()
